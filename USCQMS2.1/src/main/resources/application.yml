@@ -1,0 +1,17 @@
+server:  port: 8899  output:    ansi:      enabled: DETECT#启动不检查activiti文件
+spring:
+  activiti:
+    check-process-definitions: false
+  aop:
+    auto: true  jackson:    date-format: yyyy-MM-dd HH:mm:ss    time-zone: GMT+8
+logging:
+  file:
+    max-size: 60KB
+fileConfig:
+  Multipart:
+    MaxFileSize: 1024MB
+    MaxRequestSize: 1024MB 
+mybatis:
+###  mapper-locations: classpath:mybatis/mapper/module/**/*.xml
+  mapper-locations: [com/usc/sys/**/*.xml]
+  config-location: classpath:mybatis-config.xml
