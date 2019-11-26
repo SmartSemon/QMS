@@ -29,6 +29,7 @@ public class GetGroupUsers extends AbstractAction {
                 USCObject user = USCObjectQueryHelper.getObjectByID("SUSER", (String) groupUserList[i].getFieldValue("userId"));
                 u.put("id", groupUserList[i].getID());
                 u.put("userId", user.getID());
+                u.put("avatar", "/api/src/user/getAvatar/" + user.getID());
                 u.put("name", user.getFieldValue("SNAME"));
                 u.put("status", "online".equals(user.getFieldValue("status")) ? "在线" : "离线");
                 list.add(u);

@@ -25,21 +25,28 @@ public class CreateGroup extends AbstractAction {
             group.put("group_name", context.getExtendInfo("groupName"));
             group.put("remark", context.getExtendInfo("remarks"));
             //保存
-            context.setUserName(context.getUserName());
-            context.setItemNo("CHAT_GROUP");
-            context.setInitData(group);
+            try {
+                context.setUserName(context.getUserName());
+                context.setItemNo("CHAT_GROUP");
+                context.setInitData(group);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             //新建群后返回群信息（获取到群信息后添加自己到群中）
             USCObject newGroup = context.createObj("CHAT_GROUP");
             ApplicationContext applicationContext = (ApplicationContext) USCServerBeanProvider.getContext("CHAT_GROUP_USER",
                     context.getUserName());
-            applicationContext.setUserName(context.getUserName());
-            applicationContext.setItemNo("CHAT_GROUP_USER");
-            Map<String,Object> group_user = new HashMap<>();
-            group_user.put("userId",context.getExtendInfo("userId"));
+            Map<String, Object> group_user = new HashMap<>();
+            group_user.put("userId", context.getExtendInfo("userId"));
             group_user.put("groupId", newGroup.getID());
-            applicationContext.setInitData(group_user);
-            applicationContext.createObj("CHAT_GROUP_USER");
-
+            try {
+                applicationContext.setUserName(context.getUserName());
+                applicationContext.setItemNo("CHAT_GROUP_USER");
+                applicationContext.setInitData(group_user);
+                applicationContext.createObj("CHAT_GROUP_USER");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             result.put("code", 0);
             result.put("msg", "创建成功！");
         } else {
