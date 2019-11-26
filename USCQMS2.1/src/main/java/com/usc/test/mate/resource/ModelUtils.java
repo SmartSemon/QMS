@@ -252,7 +252,7 @@ public class ModelUtils
 			case "relationclassview":
 				String classViewNo = itemRelationPageSign.getRelevanceNo();
 				ModelClassView classView = MGetClassViewModelData.getClassViewModelData(classViewNo, null);
-				if (classViewNo != null)
+				if (classView != null)
 				{
 					ItemInfo classViewInfo = USCModelMate.getItemInfo(classView.getItemNo());
 					if (classViewInfo == null)
