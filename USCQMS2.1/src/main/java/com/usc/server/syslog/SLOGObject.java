@@ -1,6 +1,6 @@
 package com.usc.server.syslog;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 import lombok.Data;
 import lombok.ToString;
@@ -11,7 +11,7 @@ public class SLOGObject
 {
 	String ACTION;
 	String cuser;
-	Timestamp ctime;
+	Date ctime;
 	String id;
 	String IP;
 	String OBJNAME;

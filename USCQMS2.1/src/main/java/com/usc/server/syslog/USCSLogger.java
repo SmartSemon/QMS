@@ -1,7 +1,7 @@
 package com.usc.server.syslog;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +35,7 @@ public class USCSLogger
 	public void writeNewItemLog(ApplicationContext context, USCObject object, LOGActionEnum actionName)
 	{
 		SLOGObject slogObject = setDefaultLogMsg(context, object, actionName);
-		slogObject.setCtime((Timestamp) object.getFieldValue("ctime"));
+		slogObject.setCtime(((Date) object.getFieldValue("ctime")));
 		slogObject.setType(DATA_ACTION);
 		Object name = object.getFieldValue("name");
 		slogObject.setDETAILS("用户" + Symbols.L_MiddleBracket + slogObject.getCuser() + Symbols.R_MiddleBracket
@@ -48,7 +48,7 @@ public class USCSLogger
 	{
 
 		SLOGObject slogObject = setDefaultLogMsg(context, object, actionName);
-		slogObject.setCtime((Timestamp) object.getFieldValue("dtime"));
+		slogObject.setCtime(((Date) object.getFieldValue("dtime")));
 		slogObject.setType(DATA_ACTION);
 		Object name = object.getFieldValue("name");
 		slogObject.setDETAILS("用户" + Symbols.L_MiddleBracket + slogObject.getCuser() + Symbols.R_MiddleBracket
@@ -60,7 +60,7 @@ public class USCSLogger
 	public void writeModifyItemLog(ApplicationContext context, USCObject object, Map<String, Object> mObj)
 	{
 		SLOGObject slogObject = setDefaultLogMsg(context, object, LOGActionEnum.MODIFY);
-		slogObject.setCtime((Timestamp) object.getFieldValue("mtime"));
+		slogObject.setCtime(((Date) object.getFieldValue("mtime")));
 		slogObject.setType(DATA_ACTION);
 		mObj.remove("USC_OBJECT");
 		StringBuffer buffer = new StringBuffer();
@@ -101,19 +101,19 @@ public class USCSLogger
 					switch (fType)
 					{
 					case "INT":
-						fg = (int) objectV != (int) mobjectV;
+						fg = TypeUtils.castToInt(objectV) != TypeUtils.castToInt(mobjectV);
 						break;
 					case "FLOAT":
-						fg = (Float) objectV != (Float) mobjectV;
+						fg = TypeUtils.castToFloat(objectV) != TypeUtils.castToFloat(mobjectV);
 						break;
 					case "DOUBLE":
-						fg = (Double) objectV != (Double) mobjectV;
+						fg = TypeUtils.castToDouble(objectV) != TypeUtils.castToDouble(mobjectV);
 						break;
 					case "BOOLEAN":
-						fg = TypeUtils.castToBoolean(objectV) == TypeUtils.castToBoolean(mobjectV);
+						fg = TypeUtils.castToBoolean(objectV) != TypeUtils.castToBoolean(mobjectV);
 						break;
 					case "BigDecimal":
-						fg = ((BigDecimal) objectV) != ((BigDecimal) mobjectV);
+						fg = TypeUtils.castToBigDecimal(objectV) != TypeUtils.castToBigDecimal(mobjectV);
 						break;
 					case "DATETIME":
 						fg = !(TypeUtils.castToTimestamp(objectV))
@@ -124,7 +124,7 @@ public class USCSLogger
 						fg = (int) objectV != (int) mobjectV;
 						break;
 					default:
-						fg = !((String) objectV).equals((String) mobjectV);
+						fg = !(objectV.toString()).equals(mobjectV.toString());
 						break;
 					}
 					if (fg)
